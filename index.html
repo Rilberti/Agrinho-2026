@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root { --primary: #10b981; --primary-light: #34d399; --primary-dark: #059669; --accent: #06b6d4; --bg-dark: #030712; --bg-card: #0f172a; --text: #f1f5f9; --text-muted: #94a3b8; --border: rgba(16, 185, 129, 0.15); }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-dark); color: var(--text); line-height: 1.6; }
+body::before { content: ''; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse 80% 50% at 20% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 50%), radial-gradient(ellipse 60% 40% at 80% 80%, rgba(6, 182, 212, 0.05) 0%, transparent 50%); pointer-events: none; z-index: -1; }
+header { position: fixed; top: 0; left: 0; right: 0; padding: 16px 48px; display: flex; justify-content: space-between; align-items: center; background: rgba(3, 7, 18, 0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); z-index: 1000; }
+.logo { font-size: 24px; font-weight: 800; }
+.logo span { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+nav ul { display: flex; list-style: none; gap: 32px; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 14px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; position: relative; }
+nav a::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px; background: var(--primary); transition: 0.3s; }
+nav a:hover { color: var(--text); }
+nav a:hover::after { width: 100%; }
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 120px 24px 80px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: linear-gradient(rgba(16, 185, 129, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(16, 185, 129, 0.03) 1px, transparent 1px); background-size: 50px 50px; animation: gridMove 15s linear infinite; }
+@keyframes gridMove { from { transform: translateY(0); } to { transform: translateY(50px); } }
+.hero::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 600px; height: 600px; background: radial-gradient(circle, var(--primary) 0%, transparent 70%); opacity: 0.08; filter: blur(60px); animation: pulse 4s ease-in-out infinite; }
+@keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.08; } 50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.12; } }
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero h1 { font-size: clamp(36px, 7vw, 72px); font-weight: 800; line-height: 1.1; margin-bottom: 24px; letter-spacing: -2px; }
+.hero h1 span { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.hero p { font-size: clamp(16px, 2vw, 20px); color: var(--text-muted); margin-bottom: 40px; max-width: 500px; margin-left: auto; margin-right: auto; }
+.hero .btn-primary { display: inline-flex; align-items: center; gap: 10px; padding: 18px 42px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #000; text-decoration: none; border-radius: 60px; font-weight: 700; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; transition: 0.4s; box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3); }
+.hero .btn-primary:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(16, 185, 129, 0.4); }
+.section-utilities, .section-contact { padding: 100px 24px; max-width: 1200px; margin: 0 auto; }
+#noticias { background: linear-gradient(180deg, var(--bg-dark) 0%, #031a13 100%); padding: 100px 24px; }
+#noticias .container, .section-utilities .container, .section-contact .container { max-width: 1200px; margin: 0 auto; }
+h2 { font-size: clamp(28px, 5vw, 44px); font-weight: 800; text-align: center; margin-bottom: 16px; letter-spacing: -1px; }
+.section-utilities h2, .section-contact h2, #noticias h2 { margin-bottom: 48px; }
+.tabs { display: flex; justify-content: center; gap: 12px; margin-bottom: 48px; flex-wrap: wrap; }
+.tab-btn { padding: 14px 36px; background: transparent; border: 2px solid var(--border); color: var(--text-muted); border-radius: 60px; cursor: pointer; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; transition: 0.3s; }
+.tab-btn.active { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border-color: transparent; color: #000; box-shadow: 0 8px 30px rgba(16, 185, 129, 0.3); }
+.tab-btn:not(.active):hover { border-color: var(--primary); color: var(--text); }
+.tool-content { display: none; padding: 48px; background: var(--bg-card); border-radius: 24px; border: 1px solid var(--border); max-width: 700px; margin: 0 auto; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+.tool-content.active { display: block; animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px) scale(0.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.tool-content h3 { color: var(--primary); margin-bottom: 32px; text-align: center; font-size: 24px; font-weight: 700; }
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; margin-bottom: 8px; color: var(--primary); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 16px 20px; background: var(--bg-dark); border: 2px solid var(--border); border-radius: 12px; color: var(--text); font-size: 15px; font-family: inherit; transition: 0.3s; }
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: none; border-color: var(--primary); box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.1); }
+.form-group input::placeholder { color: #475569; }
+.btn-calcular, .btn-submit { width: 100%; padding: 18px; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); border: none; border-radius: 12px; color: #000; font-size: 14px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: 0.3s; margin-top: 8px; }
+.btn-calcular:hover, .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(16, 185, 129, 0.35); }
+.result-box { margin-top: 28px; padding: 28px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(6, 182, 212, 0.05) 100%); border-radius: 16px; border: 1px solid var(--primary); display: none; }
+.result-box:not(.hidden) { display: block; }
+.result-box h4 { color: var(--primary); margin-bottom: 16px; font-size: 18px; }
+.result-box p { color: var(--text-muted); font-size: 15px; margin-bottom: 8px; }
+.safra-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+.safra-card { background: var(--bg-card); border-radius: 20px; padding: 28px; border: 1px solid var(--border); transition: 0.4s; position: relative; overflow: hidden; }
+.safra-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); transform: scaleX(0); transform-origin: left; transition: 0.4s; }
+.safra-card:hover { border-color: var(--primary); transform: translateY(-6px); box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4); }
+.safra-card:hover::before { transform: scaleX(1); }
+.safra-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+.safra-header h4 { font-size: 20px; font-weight: 700; color: var(--primary); }
+.safra-badge { background: rgba(16, 185, 129, 0.15); color: var(--primary); padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; text-transform: uppercase; }
+.safra-body p { color: var(--text-muted); font-size: 14px; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 28px; }
+.news-card { background: var(--bg-card); border-radius: 20px; overflow: hidden; border: 1px solid var(--border); transition: 0.4s; }
+.news-card:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+.news-image { height: 160px; display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); }
+.news-image i { font-size: 56px; color: #fff; }
+.news-content { padding: 24px; }
+.news-content h4 { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+.news-content p { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+.news-content span { font-size: 12px; color: var(--primary); font-weight: 600; }
+.contact-wrapper { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: start; }
+.contact-info h3 { font-size: 28px; font-weight: 700; color: var(--primary); margin-bottom: 16px; }
+.contact-info > p { color: var(--text-muted); font-size: 16px; margin-bottom: 36px; }
+.info-item { display: flex; align-items: center; gap: 16px; color: var(--text-muted); font-size: 15px; margin-bottom: 24px; }
+.info-item i { width: 48px; height: 48px; background: rgba(16, 185, 129, 0.1); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 18px; flex-shrink: 0; }
+.contact-form { background: var(--bg-card); border-radius: 24px; padding: 40px; border: 1px solid var(--border); }
+footer { padding: 32px; text-align: center; border-top: 1px solid var(--border); color: #475569; font-size: 14px; }
+footer .container { max-width: 1200px; margin: 0 auto; }
+@media (max-width: 900px) { header { padding: 14px 20px; } nav { display: none; } .hero h1 { font-size: 36px; } h2 { font-size: 28px; } .tabs { flex-direction: column; } .contact-wrapper { grid-template-columns: 1fr; } .safra-grid, .news-grid { grid-template-columns: 1fr; } .section-utilities, .section-contact, #noticias { padding: 60px 20px; } }
+</style>
+
+<script>
+function trocarAba(aba) {
+    document.querySelectorAll('.tool-content').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+    document.getElementById(aba).classList.add('active');
+    event.target.classList.add('active');
+}
+
+var dados = [
+    { nome: 'Soja', fase: 'Plantio', periodo: 'Outubro a Dezembro', desc: 'Semeadura no inicio das chuvas.' },
+    { nome: 'Soja', fase: 'Colheita', periodo: 'Janeiro a Marco', desc: 'Colheita quando graos estao maduros.' },
+    { nome: 'Milho', fase: 'Plantio', periodo: 'Setembro a Novembro', desc: '1 Safra em solo com umidade.' },
+    { nome: 'Milho', fase: 'Colheita', periodo: 'Fevereiro a Abril', desc: 'Colheita pos-maturacao.' },
+    { nome: 'Cafe', fase: 'Colheita', periodo: 'Abril a Junho', desc: 'Colheita manual dos graos maduros.' },
+    { nome: 'Algodao', fase: 'Plantio', periodo: 'Dezembro a Janeiro', desc: 'Apos regularizacao das chuvas.' },
+    { nome: 'Trigo', fase: 'Plantio', periodo: 'Abril a Junho', desc: 'Cultivo de inverno.' }
+];
+
+function renderizar() {
+    var container = document.getElementById('safra-container');
+    if (!container) return;
+    var html = '';
+    for (var i = 0; i < dados.length; i++) {
+        var item = dados[i];
+        html += '<div class="safra-card"><div class="safra-header"><h4>' + item.nome + '</h4><span class="safra-badge">' + item.fase + '</span></div><div class="safra-body"><p><strong>Periodo:</strong> ' + item.periodo + '</p><p>' + item.desc + '</p></div></div>';
+    }
+    container.innerHTML = html;
+}
+
+document.addEventListener('DOMContentLoaded', renderizar);
+</script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroManager - Gestão e Tecnologia</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Navegação -->
+    <header>
+        <div class="container">
+            <div class="logo">Agro<span>Manager</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio">Início</a></li>
+                    <li><a href="#utilidades">Utilitários</a></li>
+                    <li><a href="#noticias">Notícias</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Tecnologia a Serviço do Campo</h1>
+            <p>Gestão financeira, calendários de plantio e notícias do mercado agrícolas.</p>
+            <a href="#utilidades" class="btn-primary">Acessar Utilitários</a>
+        </div>
+    </section>
+
+    <!-- Seção de Utilitários -->
+    <section id="utilidades" class="section-utilities">
+        <div class="container">
+            <h2>Ferramentas do Produtor</h2>
+            
+            <!-- Abas -->
+            <div class="tabs">
+                <button class="tab-btn active" onclick="trocarAba('calc')">Calculadora de Lucro</button>
+                <button class="tab-btn" onclick="trocarAba('safra')">Calendário de Safra</button>
+            </div>
+
+            <!-- Ferramenta 1: Calculadora -->
+            <div id="calc" class="tool-content active">
+                <h3>Simulador de Lucro por Hectare</h3>
+                <form id="form-lucro">
+                    <div class="form-group">
+                        <label>Cultura:</label>
+                        <select id="cultura">
+                            <option value="soja">Soja</option>
+                            <option value="milho">Milho</option>
+                            <option value="cafe">Café</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Custo por Hectare (R$):</label>
+                        <input type="number" id="custo" placeholder="Ex: 3500" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Produção por Hectare (Scs):</label>
+                        <input type="number" id="producao" placeholder="Ex: 55" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Preço da Sc (R$):</label>
+                        <input type="number" id="preco" placeholder="Ex: 120" required>
+                    </div>
+                    <button type="button" onclick="calcularLucro()" class="btn-calcular">Calcular</button>
+                </form>
+                <div id="resultado" class="result-box hidden">
+                    <h4>Resultado:</h4>
+                    <p>Receita Bruta: <span id="res-receita">R$ 0,00</span></p>
+                    <p>Lucro Líquido: <span id="res-lucro">R$ 0,00</span></p>
+                    <p class="status" id="res-status"></p>
+                </div>
+            </div>
+
+            <!-- Ferramenta 2: Calendário de Safra -->
+            <div id="safra" class="tool-content">
+                <h3>Calendário de Safra</h3>
+                <p>Épocas de plantio, manejo e colheita.</p>
+                <div class="safra-grid" id="safra-container"></div>
+            </div>
+
+        </div>
+    </section>
+
+               <!-- Seção de Notícias -->
+    <section id="noticias" style="background:#fff;padding:60px 0">
+        <div style="max-width:1200px;margin:0 auto;padding:0 20px">
+            <h2 style="text-align:center;margin-bottom:40px;color:#333">Últimas Notícias do Agro</h2>
+            
+            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px">
+                
+                <!-- Notícia 1 -->
+                <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+                    <div style="background:#2e7d32;height:120px;display:flex;align-items:center;justify-content:center">
+                        <i class="fas fa-leaf" style="color:white;font-size:40px"></i>
+                    </div>
+                    <div style="padding:15px">
+                        <h4 style="color:#2e7d32;margin-bottom:10px">Colheita de Soja deve bater récord</h4>
+                        <p style="color:#666;font-size:14px">Produtores celebram produtividade acima da média.</p>
+                        <span style="color:#999;font-size:12px">15/01/2024</span>
+                    </div>
+                </div>
+
+                <!-- Notícia 2 -->
+                <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+                    <div style="background:#5d4037;height:120px;display:flex;align-items:center;justify-content:center">
+                        <i class="fas fa-coffee" style="color:white;font-size:40px"></i>
+                    </div>
+                    <div style="padding:15px">
+                        <h4 style="color:#2e7d32;margin-bottom:10px">Preço do Café sobe</h4>
+                        <p style="color:#666;font-size:14px">Seca sustenta alta nos contratos.</p>
+                        <span style="color:#999;font-size:12px">14/01/2024</span>
+                    </div>
+                </div>
+
+                <!-- Notícia 3 -->
+                <div style="background:#fff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.1)">
+                    <div style="background:#1565c0;height:120px;display:flex;align-items:center;justify-content:center">
+                        <i class="fas fa-hand-holding-usd" style="color:white;font-size:40px"></i>
+                    </div>
+                    <div style="padding:15px">
+                        <h4 style="color:#2e7d32;margin-bottom:10px">Programa para pequenos</h4>
+                        <p style="color:#666;font-size:14px">Governo lança linha de crédito.</p>
+                        <span style="color:#999;font-size:12px">13/01/2024</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <!-- Seção de Contato -->
+    <section id="contato" class="section-contact">
+        <div class="container">
+            <h2>Fale Conosco</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <h3>AgroManager</h3>
+                    <p>Estamos prontos para ajudar o produtor rural!</p>
+                    <div class="info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Av. Agrícola, 1000 - Cidade Verde</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-phone"></i>
+                        <span>(11) 99999-9999</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>contato@agromanager.com.br</span>
+                    </div>
+                </div>
+                
+                <form id="form-contato" class="contact-form">
+                    <div class="form-group">
+                        <label>Nome:</label>
+                        <input type="text" id="nome" placeholder="Seu nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" id="email" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Assunto:</label>
+                        <select id="assunto">
+                            <option value="duvida">Dúvida Técnica</option>
+                            <option value="parceria">Parceria</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Mensagem:</label>
+                        <textarea id="mensagem" rows="5" placeholder="Sua mensagem..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">Enviar Mensagem</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2023 AgroManager. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- CSS e JS Incorporados -->
+    <style>
+    /* CSS das Abas */
+    .tabs { display: flex; margin-bottom: 20px; border-bottom: 2px solid #4caf50; }
+    .tab-btn { padding: 12px 25px; background: none; border: none; cursor: pointer; font-size: 16px; color: #666; }
+    .tab-btn.active { color: #2e7d32; font-weight: bold; border-bottom: 3px solid #4caf50; margin-bottom: -2px; }
+    .tool-content { display: none; padding: 20px; background: #f9f9f9; border-radius: 0 0 8px 8px; }
+    .tool-content.active { display: block; }
+
+    /* CSS do Calendário */
+    .safra-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 20px; }
+    .safra-card { background: #fff; border-left: 4px solid #4caf50; border-radius: 4px; padding: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+    .safra-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+    .safra-header h4 { margin: 0; color: #2e7d32; }
+    .safra-badge { background: #e8f5e9; color: #2e7d32; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: bold; }
+    .safra-body p { margin: 5px 0; font-size: 0.9rem; color: #333; }
+    </style>
+
+    <script>
+    /* Função para trocar as abas */
+    function trocarAba(aba) {
+        document.querySelectorAll('.tool-content').forEach(el => el.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+        document.getElementById(aba).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    /* Dados do Calendário */
+    const dados = [
+        { nome: 'Soja', fase: 'Plantio', periodo: 'Outubro a Dezembro', desc: 'Semeadura no início das chuvas.' },
+        { nome: 'Soja', fase: 'Colheita', periodo: 'Janeiro a Março', desc: 'Colheita quando grãos estão maduros.' },
+        { nome: 'Milho', fase: 'Plantio', periodo: 'Setembro a Novembro', desc: '1ª Safra em solo com umidade.' },
+        { nome: 'Milho', fase: 'Colheita', periodo: 'Fevereiro a Abril', desc: 'Colheita pós-maturação.' },
+        { nome: 'Café', fase: 'Colheita', periodo: 'Abril a Junho', desc: 'Colheita manual dos grãos maduros.' },
+        { nome: 'Café', fase: 'Processamento', periodo: 'Julho a Setembro', desc: 'Secagem e beneficiamento.' },
+        { nome: 'Algodão', fase: 'Plantio', periodo: 'Dezembro a Janeiro', desc: 'Após regularização das chuvas.' },
+        { nome: 'Trigo', fase: 'Plantio', periodo: 'Abril a Junho', desc: 'Cultivo de inverno.' }
+    ];
+
+    /* Renderiza o calendário */
+    function renderizar() {
+        const container = document.getElementById('safra-container');
+        if (!container) return;
+        container.innerHTML = dados.map(item => `
+            <div class="safra-card">
+                <div class="safra-header">
+                    <h4>${item.nome}</h4>
+                    <span class="safra-badge">${item.fase}</span>
+                </div>
+                <div class="safra-body">
+                    <p><strong>Período:</strong> ${item.periodo}</p>
+                    <p>${item.desc}</p>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    document.addEventListener('DOMContentLoaded', renderizar);
+    </script>
+
+</body>
+</html>
+
+
+
+
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root { --primary: #10b981; --primary-dark: #059669; --bg-dark: #030712; --bg-card: #0f172a; --text: #f1f5f9; --text-muted: #94a3b8; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-dark); color: var(--text); }
+header { position: fixed; top: 0; left: 0; right: 0; padding: 16px 40px; display: flex; justify-content: space-between; align-items: center; background: rgba(3,7,18,0.9); backdrop-filter: blur(20px); z-index: 1000; border-bottom: 1px solid rgba(16,185,129,0.15); }
+.logo { font-size: 24px; font-weight: 800; }
+.logo span { color: var(--primary); }
+nav ul { display: flex; list-style: none; gap: 30px; }
+nav a { color: var(--text-muted); text-decoration: none; font-size: 13px; text-transform: uppercase; transition: 0.3s; }
+nav a:hover { color: var(--primary); }
+.hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 20px; background: radial-gradient(ellipse at top, rgba(16,185,129,0.1) 0%, var(--bg-dark) 50%); }
+.hero h1 { font-size: 48px; font-weight: 800; margin-bottom: 20px; }
+.hero h1 span { color: var(--primary); }
+.hero p { font-size: 18px; color: var(--text-muted); margin-bottom: 35px; }
+.btn-primary { padding: 16px 40px; background: var(--primary); color: #000; text-decoration: none; border-radius: 50px; font-weight: 700; font-size: 14px; text-transform: uppercase; transition: 0.3s; }
+.btn-primary:hover { background: var(--primary-dark); }
+.section-utilities, .section-contact { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+#noticias { background: #031a13; padding: 80px 20px; }
+#noticias .container, .section-utilities .container, .section-contact .container { max-width: 1100px; margin: 0 auto; }
+h2 { font-size: 38px; font-weight: 700; text-align: center; margin-bottom: 40px; }
+.tabs { display: flex; justify-content: center; gap: 10px; margin-bottom: 40px; }
+.tab-btn { padding: 14px 30px; background: transparent; border: 2px solid #333; color: #888; border-radius: 50px; cursor: pointer; font-size: 13px; font-weight: 600; text-transform: uppercase; transition: 0.3s; }
+.tab-btn.active { background: var(--primary); border-color: var(--primary); color: #000; }
+.tab-btn:hover:not(.active) { border-color: var(--primary); color: #fff; }
+.tool-content { display: none; padding: 40px; background: var(--bg-card); border-radius: 20px; border: 1px solid #222; max-width: 600px; margin: 0 auto; }
+.tool-content.active { display: block; }
+.tool-content h3 { color: var(--primary); margin-bottom: 25px; text-align: center; font-size: 22px; }
+.form-group { margin-bottom: 18px; }
+.form-group label { display: block; margin-bottom: 8px; color: var(--primary); font-size: 12px; font-weight: 600; text-transform: uppercase; }
+.form-group input, .form-group select { width: 100%; padding: 14px 16px; background: #0a0a0a; border: 2px solid #333; border-radius: 10px; color: #fff; font-size: 15px; }
+.form-group input:focus { border-color: var(--primary); outline: none; }
+.btn-calcular { width: 100%; padding: 16px; background: var(--primary); border: none; border-radius: 10px; color: #000; font-size: 14px; font-weight: 700; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.btn-calcular:hover { background: var(--primary-dark); }
+.result-box { margin-top: 25px; padding: 25px; background: rgba(16,185,129,0.1); border-radius: 15px; border: 1px solid var(--primary); display: none; }
+.result-box.show { display: block; }
+.result-box h4 { color: var(--primary); margin-bottom: 15px; }
+.result-box p { color: #ccc; margin-bottom: 10px; font-size: 16px; }
+.verde { color: var(--primary); font-weight: 700; }
+.vermelho { color: #ef4444; font-weight: 700; }
+.safra-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 18px; }
+.safra-card { background: var(--bg-card); border-radius: 16px; padding: 24px; border: 1px solid #222; transition: 0.3s; }
+.safra-card:hover { border-color: var(--primary); transform: translateY(-5px); }
+.safra-header { display: flex; justify-content: space-between; margin-bottom: 14px; }
+.safra-header h4 { color: var(--primary); font-size: 18px; }
+.safra-badge { background: rgba(16,185,129,0.2); color: var(--primary); padding: 4px 12px; border-radius: 15px; font-size: 11px; }
+.safra-body p { color: #999; font-size: 13px; }
+.news-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
+.news-card { background: var(--bg-card); border-radius: 16px; overflow: hidden; border: 1px solid #222; transition: 0.3s; }
+.news-card:hover { border-color: var(--primary); transform: translateY(-8px); }
+.news-image { height: 140px; display: flex; align-items: center; justify-content: center; background: var(--primary); }
+.news-image i { font-size: 48px; color: #fff; }
+.news-content { padding: 20px; }
+.news-content h4 { font-size: 16px; margin-bottom: 10px; }
+.news-content p { font-size: 13px; color: #888; margin-bottom: 12px; }
+.news-content span { font-size: 11px; color: var(--primary); }
+.contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; }
+.contact-info h3 { color: var(--primary); font-size: 24px; margin-bottom: 15px; }
+.contact-info p { color: #888; margin-bottom: 30px; }
+.info-item { display: flex; align-items: center; gap: 14px; color: #aaa; margin-bottom: 20px; }
+.info-item i { color: var(--primary); }
+.contact-form { background: var(--bg-card); border-radius: 16px; padding: 30px; border: 1px solid #222; }
+footer { padding: 25px; text-align: center; border-top: 1px solid #222; color: #666; }
+@media (max-width: 768px) { header { padding: 12px 20px; } nav { display: none; } .hero h1 { font-size: 32px; } h2 { font-size: 28px; } .tabs { flex-direction: column; } .contact-wrapper { grid-template-columns: 1fr; } .safra-grid, .news-grid { grid-template-columns: 1fr; } }
+</style>
+
+<script>
+function trocarAba(aba) {
+    document.querySelectorAll('.tool-content').forEach(function(el) { el.classList.remove('active'); });
+    document.querySelectorAll('.tab-btn').forEach(function(el) { el.classList.remove('active'); });
+    document.getElementById(aba).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function calcularLucro() {
+    var custo = parseFloat(document.getElementById('custo').value);
+    var producao = parseFloat(document.getElementById('producao').value);
+    var preco = parseFloat(document.getElementById('preco').value);
+    
+    if (!custo || !producao || !preco) {
+        alert('Preencha todos os campos!');
+        return;
+    }
+    
+    var receita = producao * preco;
+    var lucro = receita - custo;
+    
+    document.getElementById('res-receita').innerHTML = 'R$ ' + receita.toFixed(2);
+    document.getElementById('res-lucro').innerHTML = 'R$ ' + lucro.toFixed(2);
+    
+    var status = document.getElementById('res-status');
+    if (lucro > 0) {
+        status.innerHTML = 'LUCRO: R$ ' + lucro.toFixed(2);
+        status.className = 'verde';
+    } else if (lucro < 0) {
+        status.innerHTML = 'PREJUIZO: R$ ' + Math.abs(lucro).toFixed(2);
+        status.className = 'vermelho';
+    } else {
+        status.innerHTML = 'SEM LUCRO NI PREJUIZO';
+        status.className = '';
+    }
+    
+    document.getElementById('resultado').classList.add('show');
+}
+</script>
+
+
